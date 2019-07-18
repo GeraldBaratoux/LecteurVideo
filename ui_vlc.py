@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'vlc.ui',
 # licensing of 'vlc.ui' applies.
 #
-# Created: Thu Jul 18 09:10:52 2019
+# Created: Thu Jul 18 12:38:03 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(961, 793)
+        MainWindow.resize(931, 717)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -104,16 +104,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.label_4)
         self.dVolume = QtWidgets.QDial(self.centralwidget)
         self.dVolume.setMaximumSize(QtCore.QSize(40, 40))
+        self.dVolume.setMaximum(100)
         self.dVolume.setObjectName("dVolume")
         self.horizontalLayout_3.addWidget(self.dVolume)
-        self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setObjectName("label_5")
-        self.horizontalLayout_3.addWidget(self.label_5)
+        self.lVolume = QtWidgets.QLabel(self.centralwidget)
+        self.lVolume.setObjectName("lVolume")
+        self.horizontalLayout_3.addWidget(self.lVolume)
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_5.addLayout(self.verticalLayout_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 961, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 931, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -136,6 +137,6 @@ class Ui_MainWindow(object):
         self.pbAjout.setText(QtWidgets.QApplication.translate("MainWindow", "+", None, -1))
         self.pbSuppr.setText(QtWidgets.QApplication.translate("MainWindow", "-", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("MainWindow", "Volume :", None, -1))
-        self.label_5.setText(QtWidgets.QApplication.translate("MainWindow", "0%", None, -1))
+        self.lVolume.setText(QtWidgets.QApplication.translate("MainWindow", "0%", None, -1))
 
 from PySide2.QtMultimediaWidgets import QVideoWidget
