@@ -24,23 +24,27 @@ class MainWindow(QMainWindow):
         self.mediaPlayer.durationChanged.connect(self.mediaDurationChanged)
         self.mediaPlayer.positionChanged.connect(self.mediaPositionChanged)
 
-        #mediaContent = QMediaContent(QUrl.fromLocalFile("big_buck_bunny.avi"))
-        #self.mediaPlayer.setMedia(mediaContent)
+        self.ui.pbSuivant.clicked.connect(self.suivantClicked)
+        self.ui.pbPrecedent.clicked.connect(self.precedentClicked)
 
     def lectureClicked(self):
         print("Lecture !!")
         self.mediaPlayer.play()
+
     def pauseClicked(self):
         print("Pause !!")
         if self.mediaPlayer.state() == QMediaPlayer.PausedState:
             self.mediaPlayer.play()
         elif self.mediaPlayer.state() == QMediaPlayer.PlayingState:
             self.mediaPlayer.pause()
+
     def stopClicked(self):
         self.mediaPlayer.stop()
+
     def volumeChanged(self):
         self.mediaPlayer.setVolume(self.ui.dVolume.value())
         self.ui.lVolume.setText(str(self.ui.dVolume.value())+"%")
+
     def mediaDurationChanged(self):
         print("mediaLoaded")
         self.ui.lTpsCourant.setText("00:00:00")
@@ -49,6 +53,7 @@ class MainWindow(QMainWindow):
         totalTimeMedia = QTime(0, 0, 0)
         totalTimeMedia = totalTimeMedia.addMSecs(mediaDuration)
         self.ui.lTpsTotal.setText(totalTimeMedia.toString("HH:mm:ss"))
+
     def mediaPositionChanged(self):
         self.ui.sTpsCourant.valueChanged.disconnect(self.sliderPositionChanged)
         mediaPosition = self.mediaPlayer.position()
@@ -57,6 +62,7 @@ class MainWindow(QMainWindow):
         currentTimeMedia = currentTimeMedia.addMSecs(mediaPosition)
         self.ui.lTpsCourant.setText(currentTimeMedia.toString("HH:mm:ss"))
         self.ui.sTpsCourant.valueChanged.connect(self.sliderPositionChanged)
+
     def sliderPositionChanged(self):
         self.mediaPlayer.positionChanged.disconnect(self.mediaPositionChanged)
         self.mediaPlayer.setPosition(self.ui.sTpsCourant.value())
@@ -69,6 +75,10 @@ class MainWindow(QMainWindow):
 
     def ajouterMedia2(self):
         nomMedia = QFileDialog.getOpenFileName(self, "Choix Film", "c:/", "Movie Files (*.avi *.mp4)")
+
+        if nomMedia[0] == "": #si aucun fichier selectionné
+            return
+
         fInfo = QFileInfo(nomMedia[0])
         fShortName = fInfo.baseName()
         item = QListWidgetItem(fShortName)
@@ -79,8 +89,6 @@ class MainWindow(QMainWindow):
         rowItem = self.ui.lPlaylist.currentRow()
         if rowItem != -1:
             self.ui.lPlaylist.takeItem(rowItem)
-
-    #self.ui.lPlaylist.itemDoubleClicked.connect(self.mediaSelected)
 
     def mediaSelected(self):
         currentItem = self.ui.lPlaylist.currentItem()
@@ -93,6 +101,22 @@ class MainWindow(QMainWindow):
         mediaContent = QMediaContent(QUrl.fromLocalFile(currentItem.toolTip()))
         self.mediaPlayer.setMedia(mediaContent)
         self.lectureClicked()
+
+    def suivantClicked(self):
+        currentItemRow = self.ui.lPlaylist.currentRow()
+        if currentItemRow == -1:
+            return
+        totalItems = self.ui.lPlaylist.count()
+        self.ui.lPlaylist.setCurrentRow((currentItemRow+1)%totalItems)
+        self.mediaSelected2()
+
+    def precedentClicked(self):
+        currentItemRow = self.ui.lPlaylist.currentRow()
+        if currentItemRow == -1:
+            return
+        totalItems = self.ui.lPlaylist.count()
+        self.ui.lPlaylist.setCurrentRow((currentItemRow-1)%totalItems)
+        self.mediaSelected2()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
